@@ -1,0 +1,590 @@
+/* Safi V2 — rounded clean UI for Obsidian.
+   Soft paper page, white cards with a tight downward lift, green brand,
+   one lime pointer for the active thing. Funnel Display headings over
+   Funnel Sans, JetBrains Mono for code only. Rounded everything,
+   no card borders. Spec: System/Prompts/Design/rounded-clean-ui. */
+
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:wght@300..800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+body {
+  --font-display: 'Funnel Display', 'Wix Madefor Display', 'Host Grotesk', system-ui, sans-serif;
+  --font-text-theme: 'Funnel Sans', 'Wix Madefor Text', 'Host Grotesk', system-ui, sans-serif;
+  --font-interface-theme: 'Funnel Sans', 'Wix Madefor Text', 'Host Grotesk', system-ui, sans-serif;
+  --font-monospace-theme: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Radius scale: pill 999, panel 32, card 24, inner 16, tight 12, mark 6. */
+  --radius-pill: 999px;
+  --radius-panel: 32px;
+  --radius-card: 24px;
+  --radius-inner: 16px;
+  --radius-tight: 12px;
+  --radius-mark: 6px;
+
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-l: 16px;
+  --radius-xl: 24px;
+  --button-radius: var(--radius-pill);
+  --input-radius: var(--radius-inner);
+  --checkbox-radius: var(--radius-mark);
+  --tag-radius: var(--radius-pill);
+  --callout-radius: var(--radius-inner);
+  --code-radius: var(--radius-inner);
+  --modal-radius: var(--radius-card);
+  --image-radius: var(--radius-inner);
+  --tab-radius-active: var(--radius-pill);
+
+  --font-text-size: 17px;
+  --line-height-normal: 1.55;
+  --bold-weight: 600;
+
+  /* Readable line length caps content at 1440px instead of 700px. */
+  --file-line-width: 1440px;
+
+  --h1-font: var(--font-display);
+  --h2-font: var(--font-display);
+  --h3-font: var(--font-display);
+  --h4-font: var(--font-display);
+  --h5-font: var(--font-display);
+  --h6-font: var(--font-display);
+  --inline-title-font: var(--font-display);
+  --inline-title-weight: 800;
+  --h1-weight: 800;
+  --h2-weight: 800;
+  --h3-weight: 600;
+  --h4-weight: 600;
+  --h5-weight: 600;
+  --h6-weight: 600;
+  --h1-line-height: 0.98;
+  --h2-line-height: 1.06;
+  --h3-line-height: 1.26;
+
+  --tag-padding-x: 14px;
+  --tag-padding-y: 5px;
+  --tag-weight: 500;
+  --tag-decoration: none;
+  --tag-decoration-hover: none;
+
+  --blockquote-border-thickness: 3px;
+  --checkbox-size: 18px;
+}
+
+/* ===================== LIGHT (paper) ===================== */
+.theme-light {
+  --surface-page: #EFF2E9;
+  --surface-card: #FFFFFF;
+  --surface-sunken: #E3E9D9;
+  --surface-dark: #101614;
+  --surface-brand: #0E653F;
+  --surface-accent: #D6F24E;
+  --text-primary: #101614;
+  --text-secondary: #5B6660;
+  --text-brand: #0E653F;
+  --text-on-dark: #F3F6EF;
+  --border-subtle: #DCE2D2;
+  --btn-bg: #101614;
+  --btn-fg: #F3F6EF;
+  --btn-mark: #D6F24E;
+  --lift-card: 0 1px 2px rgba(16, 22, 20, .04), 0 8px 20px -6px rgba(16, 22, 20, .05);
+
+  --accent-h: 154;
+  --accent-s: 76%;
+  --accent-l: 23%;
+}
+
+/* ===================== DARK ===================== */
+.theme-dark {
+  --surface-page: #0C110F;
+  --surface-card: #151C19;
+  --surface-sunken: #202A26;
+  --surface-dark: #050807;
+  --surface-brand: #0E653F;
+  --surface-accent: #D6F24E;
+  --text-primary: #EEF2EA;
+  --text-secondary: #98A49D;
+  --text-brand: #5FD394;
+  --text-on-dark: #F3F6EF;
+  --border-subtle: #25302B;
+  --btn-bg: #EEF2EA;
+  --btn-fg: #101614;
+  --btn-mark: #0E653F;
+  --lift-card: 0 1px 2px rgba(0, 0, 0, .45), 0 8px 20px -6px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .04);
+
+  --accent-h: 147;
+  --accent-s: 56%;
+  --accent-l: 60%;
+}
+
+/* Map the tokens onto Obsidian's variables, once for both modes. */
+.theme-light, .theme-dark {
+  --background-primary: var(--surface-card);
+  --background-primary-alt: var(--surface-sunken);
+  --background-secondary: var(--surface-page);
+  --background-secondary-alt: var(--surface-card);
+
+  --background-modifier-border: var(--border-subtle);
+  --background-modifier-border-hover: var(--border-subtle);
+  --background-modifier-border-focus: var(--border-subtle);
+  --background-modifier-form-field: var(--surface-sunken);
+  --background-modifier-form-field-highlighted: var(--surface-sunken);
+  --background-modifier-hover: color-mix(in srgb, var(--surface-sunken) 70%, transparent);
+  --background-modifier-active-hover: var(--surface-sunken);
+
+  --text-normal: var(--text-primary);
+  --text-muted: var(--text-secondary);
+  --text-faint: color-mix(in srgb, var(--text-secondary) 70%, transparent);
+  --text-accent: var(--text-brand);
+  --text-accent-hover: var(--text-primary);
+  --text-on-accent: var(--btn-fg);
+  --text-selection: color-mix(in srgb, var(--surface-accent) 45%, transparent);
+
+  --interactive-normal: var(--surface-card);
+  --interactive-hover: var(--surface-sunken);
+  --interactive-accent: var(--btn-bg);
+  --interactive-accent-hover: var(--btn-bg);
+
+  --link-color: var(--text-brand);
+  --link-color-hover: var(--text-primary);
+  --link-external-color: var(--text-brand);
+  --link-external-color-hover: var(--text-primary);
+  --link-unresolved-color: var(--text-secondary);
+
+  --heading-color: var(--text-primary);
+  --h1-color: var(--text-primary);
+  --h2-color: var(--text-primary);
+  --h3-color: var(--text-primary);
+  --h4-color: var(--text-primary);
+  --h5-color: var(--text-primary);
+  --h6-color: var(--text-primary);
+  --inline-title-color: var(--text-primary);
+
+  --hr-color: var(--border-subtle);
+  --blockquote-border-color: var(--text-brand);
+  --code-background: var(--surface-sunken);
+  --code-normal: var(--text-primary);
+
+  --tag-background: var(--surface-sunken);
+  --tag-background-hover: var(--surface-sunken);
+  --tag-color: var(--text-secondary);
+  --tag-color-hover: var(--text-primary);
+
+  --checkbox-color: var(--btn-bg);
+  --checkbox-color-hover: var(--btn-bg);
+  --checkbox-marker-color: var(--btn-mark);
+  --checkbox-border-color: transparent;
+
+  --nav-item-background-active: var(--surface-accent);
+  --nav-item-color-active: #101614;
+  --nav-item-background-hover: var(--background-modifier-hover);
+
+  --tab-background-active: var(--surface-accent);
+  --tab-text-color-focused-active: #101614;
+  --tab-text-color-focused-active-current: #101614;
+  --tab-outline-color: transparent;
+  --divider-color: transparent;
+
+  --titlebar-background: var(--surface-page);
+  --titlebar-background-focused: var(--surface-page);
+  --ribbon-background: var(--surface-page);
+  --ribbon-background-collapsed: var(--surface-page);
+  --status-bar-background: var(--surface-card);
+  --status-bar-border-color: transparent;
+
+  --table-border-color: var(--border-subtle);
+  --table-header-background: var(--surface-page);
+
+  --modal-background: var(--surface-card);
+  --menu-background: var(--surface-card);
+  --shadow-s: var(--lift-card);
+  --shadow-l: var(--lift-card);
+}
+
+/* ===================== Workspace: white cards on paper ===================== */
+
+/* Sidebars and tab strips sit on paper; notes float as white cards. */
+.workspace-split.mod-root,
+.workspace-split.mod-root .workspace-tab-header-container {
+  background-color: var(--surface-page);
+}
+.workspace-split.mod-root .workspace-tab-container {
+  padding: 0 10px 10px;
+  background-color: var(--surface-page);
+}
+.workspace-split.mod-root .workspace-leaf {
+  border-radius: var(--radius-card);
+  box-shadow: var(--lift-card);
+  overflow: hidden;
+}
+.workspace-split.mod-root .workspace-leaf-content,
+.workspace-split.mod-root .view-header {
+  background-color: var(--surface-card);
+}
+.workspace-split.mod-root > .workspace-leaf-resize-handle,
+.workspace-split.mod-root .workspace-leaf-resize-handle {
+  border-color: transparent;
+}
+.workspace-split.mod-left-split .workspace-leaf-content,
+.workspace-split.mod-right-split .workspace-leaf-content,
+.workspace-split.mod-left-split .workspace-tab-header-container,
+.workspace-split.mod-right-split .workspace-tab-header-container {
+  background-color: var(--surface-page);
+}
+
+/* Tabs as pills. The active one is the lime pointer. */
+.workspace-tab-header {
+  border-radius: var(--radius-pill);
+}
+.workspace-tab-header::before,
+.workspace-tab-header::after,
+.workspace-tab-header.is-active::before,
+.workspace-tab-header.is-active::after {
+  display: none;
+}
+.workspace-tab-header-inner {
+  border-radius: var(--radius-pill);
+  padding: 0 14px;
+}
+.workspace-tab-header.is-active {
+  background-color: var(--surface-accent);
+  box-shadow: none;
+  font-weight: 600;
+}
+.workspace-tab-header.is-active .workspace-tab-header-inner-title,
+.workspace-tab-header.is-active .workspace-tab-header-inner-icon,
+.workspace-tab-header.is-active .workspace-tab-header-inner-close-button {
+  color: #101614;
+}
+.workspace-tab-header-inner::after {
+  display: none;
+}
+
+/* Sidebar tab icons sit in a white pill group; the active icon is a lime pill. */
+.workspace-split.mod-left-split .workspace-tab-header-container-inner,
+.workspace-split.mod-right-split .workspace-tab-header-container-inner {
+  background-color: var(--surface-card);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--lift-card);
+  padding: 3px;
+  margin: auto 6px;
+  gap: 2px;
+  align-items: center;
+  height: auto;
+}
+.workspace-split.mod-left-split .workspace-tab-header,
+.workspace-split.mod-right-split .workspace-tab-header {
+  color: var(--text-secondary);
+  background-color: transparent;
+  padding: 0;
+  height: auto;
+}
+.workspace-split.mod-left-split .workspace-tab-header .workspace-tab-header-inner,
+.workspace-split.mod-right-split .workspace-tab-header .workspace-tab-header-inner {
+  width: 34px;
+  height: 26px;
+  padding: 0;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+}
+.workspace-split.mod-left-split .workspace-tab-header.is-active,
+.workspace-split.mod-right-split .workspace-tab-header.is-active {
+  background-color: transparent;
+}
+.workspace-split.mod-left-split .workspace-tab-header.is-active .workspace-tab-header-inner,
+.workspace-split.mod-right-split .workspace-tab-header.is-active .workspace-tab-header-inner {
+  background-color: var(--surface-accent);
+}
+.workspace-split.mod-left-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
+.workspace-split.mod-right-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon {
+  --icon-color: #101614;
+  color: #101614;
+  opacity: 1;
+}
+.workspace-split.mod-left-split .workspace-tab-header:not(.is-active):hover .workspace-tab-header-inner,
+.workspace-split.mod-right-split .workspace-tab-header:not(.is-active):hover .workspace-tab-header-inner {
+  background-color: var(--surface-sunken);
+}
+
+/* File tree and outline rows: pills, lime when active. */
+.nav-file-title,
+.nav-folder-title,
+.tree-item-self {
+  border-radius: var(--radius-tight);
+  font-weight: 500;
+}
+.nav-file-title.is-active,
+.tree-item-self.is-active,
+.tree-item-self.is-selected {
+  background-color: var(--surface-accent);
+  color: #101614;
+  font-weight: 600;
+}
+body:not(.is-grabbing) .tree-item-self.is-active:hover,
+body:not(.is-grabbing) .tree-item-self.is-selected:hover {
+  background-color: var(--surface-accent);
+  color: #101614;
+}
+.nav-file-title.is-active .nav-file-tag {
+  color: #101614;
+}
+
+/* Status bar: a small white pill in the corner. */
+.status-bar {
+  border: 0;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--lift-card);
+  margin: 0 10px 8px 0;
+  padding: 4px 12px;
+}
+
+/* ===================== Type ===================== */
+
+.markdown-rendered h1, .markdown-rendered h2, .markdown-rendered h3,
+.markdown-rendered h4, .markdown-rendered h5, .markdown-rendered h6,
+.cm-header, .inline-title, .view-header-title,
+.callout-title-inner, .modal-title, .setting-item-heading .setting-item-name {
+  font-family: var(--font-display);
+}
+
+.markdown-rendered h1, .HyperMD-header-1, .inline-title {
+  letter-spacing: -0.03em;
+}
+.markdown-rendered h2, .HyperMD-header-2 {
+  letter-spacing: -0.025em;
+}
+.markdown-rendered h3, .markdown-rendered h4,
+.HyperMD-header-3, .HyperMD-header-4 {
+  letter-spacing: -0.015em;
+}
+
+/* Links read as brand text, no underline until hover. */
+.markdown-rendered a,
+.cm-s-obsidian span.cm-hmd-internal-link,
+.cm-s-obsidian span.cm-link,
+.cm-s-obsidian span.cm-url {
+  text-decoration: none;
+  font-weight: 500;
+}
+.markdown-rendered a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ===================== Content blocks ===================== */
+
+/* Tables fill the content width, even with two columns. */
+.markdown-rendered table,
+.markdown-source-view.mod-cm6 .cm-table-widget .table-wrapper,
+.markdown-source-view.mod-cm6 .cm-table-widget table {
+  width: 100%;
+}
+.markdown-rendered th {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.markdown-rendered table,
+.markdown-rendered th,
+.markdown-rendered td {
+  border-left: 0;
+  border-right: 0;
+}
+
+.markdown-rendered blockquote {
+  border-left-width: 3px;
+  padding-left: 1.1em;
+  font-style: normal;
+  color: var(--text-secondary);
+}
+
+/* Code: sunken fill, radius 16, no border. */
+.markdown-rendered pre,
+.HyperMD-codeblock {
+  border: 0;
+}
+.markdown-rendered pre {
+  padding: 16px 18px;
+}
+.markdown-rendered :not(pre) > code,
+.cm-inline-code {
+  border-radius: 8px;
+  padding: 0.1em 0.4em;
+}
+
+/* Callouts: sunken card, no side bar. */
+.callout {
+  border: 0;
+  border-radius: var(--radius-inner);
+  padding: 16px 20px;
+  background-color: var(--surface-sunken);
+}
+.callout-title {
+  font-weight: 600;
+}
+
+/* Images inside a card step down to 16. */
+.markdown-rendered img {
+  border-radius: var(--radius-inner);
+}
+
+.markdown-rendered hr, .hr {
+  border-top-width: 1px;
+}
+
+/* Tags: sunken pills with secondary text. */
+a.tag, .cm-hashtag {
+  font-size: 13px;
+  border: 0;
+}
+
+/* ===================== Controls ===================== */
+
+/* Primary buttons: ink pill (light pill on dark). */
+button, .clickable-icon {
+  border-radius: var(--radius-pill);
+}
+button:not(.clickable-icon) {
+  box-shadow: var(--lift-card);
+  border: 0;
+  font-weight: 600;
+}
+button.mod-cta {
+  background-color: var(--btn-bg);
+  color: var(--btn-fg);
+  box-shadow: none;
+}
+button.mod-cta:hover {
+  background-color: var(--btn-bg);
+  filter: brightness(1.15);
+}
+button.mod-warning {
+  box-shadow: none;
+}
+
+/* Fields: sunken, radius 16, no border, no shadow. */
+input[type='text'], input[type='search'], input[type='email'],
+input[type='password'], input[type='number'], input[type='date'],
+input[type='datetime-local'], textarea, select, .dropdown {
+  border: 0;
+  box-shadow: none;
+  background-color: var(--surface-sunken);
+}
+input[type='text']:focus, input[type='search']:focus,
+input[type='email']:focus, input[type='password']:focus,
+input[type='number']:focus, textarea:focus, select:focus, .dropdown:focus {
+  /* No ring: focus shows as a slightly deeper fill. */
+  box-shadow: none;
+  background-color: color-mix(in srgb, var(--surface-sunken) 80%, var(--text-secondary));
+}
+.dropdown:focus-visible, select:focus-visible {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--text-brand) 45%, transparent);
+}
+.dropdown, select {
+  border-radius: var(--radius-pill);
+}
+
+/* Sidebar search: a pill. */
+.search-input-container input {
+  border-radius: var(--radius-pill);
+}
+
+/* Command palette and quick switcher: the input sits flat in the card,
+   with a hairline under it, no fill and no focus ring. */
+.prompt-input-container {
+  border-bottom: 1px solid var(--border-subtle);
+}
+.prompt-input-container input.prompt-input,
+.prompt-input-container input.prompt-input:focus {
+  background-color: transparent;
+  box-shadow: none;
+  border: 0;
+  border-radius: 0;
+}
+
+/* Toggle: sunken track, ink track with a lime knob when on. */
+.checkbox-container {
+  background-color: var(--surface-sunken);
+  box-shadow: none;
+}
+.checkbox-container.is-enabled {
+  background-color: var(--btn-bg);
+}
+.checkbox-container::after {
+  background-color: var(--text-primary);
+  box-shadow: none;
+}
+.checkbox-container.is-enabled::after {
+  background-color: var(--btn-mark);
+}
+
+/* Checkboxes: sunken square at radius 6, ink with lime check when done. */
+input[type='checkbox'] {
+  border: 0;
+  background-color: var(--surface-sunken);
+}
+
+/* ===================== Floating surfaces ===================== */
+
+.modal, .prompt, .menu, .suggestion-container, .popover.hover-popover,
+.tooltip, .notice {
+  border: 0;
+  box-shadow: var(--lift-card);
+}
+.modal, .prompt {
+  border-radius: var(--radius-card);
+}
+.menu, .suggestion-container, .popover.hover-popover {
+  border-radius: var(--radius-inner);
+  padding: 6px;
+}
+.menu-item, .suggestion-item {
+  border-radius: var(--radius-tight);
+}
+.suggestion-item.is-selected, .menu-item.selected:not(.is-disabled):not(.is-label) {
+  background-color: var(--surface-sunken);
+}
+.notice {
+  border-radius: var(--radius-inner);
+  background-color: var(--surface-dark);
+  color: var(--text-on-dark);
+}
+.tooltip {
+  border-radius: var(--radius-pill);
+  padding: 6px 12px;
+}
+
+/* Settings: nav on paper, the active tab is the lime pointer. */
+.vertical-tab-nav-item {
+  border-radius: var(--radius-pill);
+}
+/* Obsidian sets this with body:not(.is-phone), so match that prefix to win. */
+body:not(.is-phone) .vertical-tab-header-group-items .vertical-tab-nav-item.is-active,
+body:not(.is-phone) .vertical-tab-header-group-items .vertical-tab-nav-item.is-active:hover {
+  --icon-color: #101614;
+  background-color: var(--surface-accent);
+  color: #101614;
+  font-weight: 600;
+}
+body:not(.is-phone) .vertical-tab-header-group-items .vertical-tab-nav-item.is-active .vertical-tab-nav-item-icon,
+body:not(.is-phone) .vertical-tab-header-group-items .vertical-tab-nav-item.is-active .svg-icon {
+  --icon-color: #101614;
+  color: #101614;
+  opacity: 1;
+}
+
+/* Property keys and view header meta in medium weight. */
+.metadata-property-key, .view-header-breadcrumb {
+  font-weight: 500;
+}
+
+/* Settings: groups are white cards on paper so the sunken inputs show. */
+.modal.mod-settings {
+  --setting-items-background: var(--surface-card);
+  --setting-items-radius: var(--radius-card);
+}
+.modal.mod-settings .vertical-tab-content-container,
+.modal.mod-settings .vertical-tab-content {
+  background-color: var(--surface-page);
+}
+.modal.mod-settings .setting-group .setting-items {
+  box-shadow: var(--lift-card);
+}
